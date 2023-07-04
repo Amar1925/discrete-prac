@@ -1,0 +1,102 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class RELATION {
+private:
+    vector<vector<int>> matrix;
+    int size;
+
+public:
+    // Constructor
+    RELATION(const vector<vector<int>>& inputMatrix) : matrix(inputMatrix) {
+        size = matrix.size();
+    }
+
+    // Check if the relation is reflexive
+    bool isReflexive() {
+        for (int i = 0; i < size; i++) {
+            if (matrix[i][i] != 1) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    // Check if the relation is symmetric
+    bool isSymmetric() {
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                if (matrix[i][j] != matrix[j][i]) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    // Check if the relation is anti-symmetric
+    bool isAntiSymmetric() {
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                if (i != j && matrix[i][j] == 1 && matrix[j][i] == 1) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    // Check if the relation is transitive
+    bool isTransitive() {
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                if (matrix[i][j] == 1) {
+                    for (int k = 0; k < size; k++) {
+                        if (matrix[j][k] == 1 && matrix[i][k] != 1) {
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
+    // Check if the relation is an equivalence relation
+    bool isEquivalenceRelation() {
+        return isReflexive() && isSymmetric() && isTransitive();
+    }
+
+    // Check if the relation is a partial order relation
+    bool isPartialOrderRelation() {
+        return isReflexive() && isAntiSymmetric() && isTransitive();
+    }
+
+    // Check if the relation is neither an equivalence nor a partial order relation
+    bool isNonRelation() {
+        return !isEquivalenceRelation() && !isPartialOrderRelation();
+    }
+};
+
+int main() {
+    // Example usage
+    vector<vector<int>> inputMatrix = {
+        {1, 0, 0},
+        {0, 1, 0},
+        {1, 0, 1}
+    };
+
+    RELATION relation(inputMatrix);
+
+    if (relation.isEquivalenceRelation()) {
+        cout << "The given relation is an equivalence relation." << endl;
+    } else if (relation.isPartialOrderRelation()) {
+        cout << "The given relation is a partial order relation." << endl;
+    } else {
+        cout << "The given relation is neither an equivalence relation nor a partial order relation." << endl;
+    }
+
+    return 0;
+}
