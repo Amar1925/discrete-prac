@@ -1,0 +1,50 @@
+#include <iostream>
+#include <cmath>
+
+using namespace std;
+
+// Function to evaluate a polynomial function for a given value of n
+int evaluatePolynomial(int n, int coefficients[], int degree) {
+    int result = 0;
+
+    // Evaluate the polynomial function using the given value of n
+    for (int i = 0; i <= degree; i++) {
+        result += coefficients[i] * pow(n, i);
+    }
+
+    return result;
+}
+
+int main() {
+    int degree;
+    cout << "Enter the degree of the polynomial function: ";
+    cin >> degree;
+
+    // Create an array to store the coefficients of the polynomial function
+    int coefficients[degree + 1];
+
+    cout << "Enter the coefficients of the polynomial function in ascending order of powers: ";
+    for (int i = 0; i <= degree; i++) {
+        cin >> coefficients[i];
+    }
+
+    int n;
+    cout << "Enter the value of n: ";
+    cin >> n;
+
+    // Evaluate the polynomial function for the given value of n
+    int result = evaluatePolynomial(n, coefficients, degree);
+
+    cout << "The result of the polynomial function f(" << n << ") = ";
+    for (int i = degree; i >= 0; i--) {
+        if (coefficients[i] != 0) {
+            cout << coefficients[i] << "n^" << i;
+            if (i != 0) {
+                cout << " + ";
+            }
+        }
+    }
+    cout << " is " << result << endl;
+
+    return 0;
+}
