@@ -1,0 +1,64 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+// Function to check if a given graph is a complete graph
+bool isCompleteGraph(const vector<vector<int>>& graph) {
+    int n = graph.size();
+
+    // Check if each pair of distinct vertices is connected by an edge
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            // Check if i and j are distinct vertices
+            if (i != j) {
+                bool connected = false;
+
+                // Check if j is present in the adjacency list of vertex i
+                for (int neighbor : graph[i]) {
+                    if (neighbor == j) {
+                        connected = true;
+                        break;
+                    }
+                }
+
+                // If i and j are not connected, return false
+                if (!connected) {
+                    return false;
+                }
+            }
+        }
+    }
+
+    return true;
+}
+
+int main() {
+    int n;
+    cout << "Enter the number of vertices in the graph: ";
+    cin >> n;
+
+    // Create an adjacency list to represent the graph
+    vector<vector<int>> graph(n);
+
+    cout << "Enter the adjacency list of the graph (-1 to terminate each list):\n";
+    for (int i = 0; i < n; i++) {
+        cout << "Adjacency list of vertex " << i << ": ";
+        int neighbor;
+        while (cin >> neighbor) {
+            if (neighbor == -1) {
+                break;
+            }
+            graph[i].push_back(neighbor);
+        }
+    }
+
+    // Check if the graph is a complete graph
+    if (isCompleteGraph(graph)) {
+        cout << "The given graph is a complete graph." << endl;
+    } else {
+        cout << "The given graph is not a complete graph." << endl;
+    }
+
+    return 0;
+}
